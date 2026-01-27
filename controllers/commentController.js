@@ -1,5 +1,7 @@
 // import models
-import { Post, Comment } from "../models"
+import { Post } from "../models/postModel.js";
+import { Comment } from "../models/commentModel.js";
+
 
 // business logic
 export const createComment = async (req, res) => {
@@ -20,13 +22,22 @@ export const createComment = async (req, res) => {
       // find the post by ID and add the new comment to its comment array
       const updatedPost = await Post.findByIdAndUpdate(
         post,
-        { push: { comments: savedComment._id } },
+        {$push: { comments: savedComment._id } },
         { new: true },
-      );
+      )
+      .populate("comments")
+      .exec();
 
       // {new: true} will return the updated Post
+      // populate the comments array with comment documents. Mtlb ki populate krne pr actual comment aaega nhi to bs comment ki id aaegi.
+
+      res.json({
+        post: updatedPost,
+      });
     }
     catch(err){
-
+        return res.status(500).json({
+          error: "Error while creating comment",
+        });
     }
 }
