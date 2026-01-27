@@ -4,6 +4,8 @@ import { connectWithDB } from "./config/database.js";
 import dotenv from "dotenv"
 dotenv.config()
 
+import { router } from "./routes/blog.js";
+
 const app = express()
 const PORT = process.env.PORT
 
@@ -11,7 +13,7 @@ const PORT = process.env.PORT
 app.use(express.json())
 
 //mount 
-app.use("/api/v1", blog)
+app.use("/api/v1", router);
 
 connectWithDB();
 
