@@ -23,7 +23,7 @@ export const getAllPosts = async (req, res) => {
     try{
         // const posts = await Post.find();     // This will fetch all the posts with its comments and likes ids
 
-        const posts = await Post.find().populate("comments").exec();
+        const posts = await Post.find().populate("likes").populate("comments").exec();
         res.json({
             posts,
         })
